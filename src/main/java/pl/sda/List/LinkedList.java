@@ -8,6 +8,8 @@ public class LinkedList implements IList {
     //to do
     @Override
     public boolean isEmpty() {
+        if (size ==0 )
+            return true;
         return false;
     }
 
@@ -30,13 +32,25 @@ public class LinkedList implements IList {
     //to do
     @Override
     public void set(int index, long value) {
-
+        Node tmp = first;
+        for (int i = 0; i < index; i++)
+            tmp = tmp.getNext();
+        tmp.setValue(value);
     }
 
     //to do
     @Override
     public void remove(int index) {
-
+        Node toRemove = first;
+        for (int i = 0; i < index; i++)
+            toRemove = toRemove.getNext();
+        Node prevToRemove = toRemove.getPrev();
+        Node nextToRemove = toRemove.getNext();
+        toRemove.setNext(null);
+        toRemove.setPrev(null);
+        prevToRemove.setNext(nextToRemove);
+        nextToRemove.setPrev(prevToRemove);
+        size--;
     }
 
     @Override
