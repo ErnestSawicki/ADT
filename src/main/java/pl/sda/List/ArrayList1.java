@@ -2,14 +2,13 @@ package pl.sda.List;
 
 import java.util.Arrays;
 
-public class ArrayList2x implements IList {
+public class ArrayList1 implements IList {
 
     private long[] holder;
     private int size = 0;
-    private final int arraySizeMultipler = 2;
 
-    public ArrayList2x() {
-        holder = new long[arraySizeMultipler];
+    public ArrayList1() {
+        holder = new long[size];
     }
 
     // to do
@@ -44,7 +43,7 @@ public class ArrayList2x implements IList {
             holder[iterator] = holder[iterator + 1];
             iterator++;
         }
-        size --;
+        size--;
     }
 
     @Override
@@ -60,32 +59,35 @@ public class ArrayList2x implements IList {
     //to do - increment size of table
     @Override            //   0             2           size= 1
     public void add(int index, long value) {
-        for (int i = size; i > index; i--) {
-            holder[i] = holder[i - 1];
-        }
-        holder[index] = value;
-        size++;
-        if (size == holder.length) {
+        if (size == 0) {
+            size++;
+            holder = new long[size];
+            holder[0] = value;
+        } else {
             long[] tmp = holder;
-            holder = new long[holder.length * arraySizeMultipler];
+            size++;
+            holder = new long[size];
             for (int i = 0; i < tmp.length; i++) {
                 holder[i] = tmp[i];
             }
+            for (int i = size - 1; i > index; i--) {
+                holder[i] = holder[i - 1];
+            }
+            holder[index] = value;
         }
+
+
     }
 
     //to do - increment size of physical table
     @Override
     public void add(long value) {
-        holder[size] = value;
-        size++;
-        if (size == holder.length) {
-            long[] tmp = holder;
-            holder = new long[holder.length * arraySizeMultipler];
-            for (int i = 0; i < tmp.length; i++) {
-                holder[i] = tmp[i];
-            }
+        long[] tmp = holder;
+        holder = new long[++size];
+        for (int i = 0; i < tmp.length; i++) {
+            holder[i] = tmp[i];
         }
+        holder[holder.length - 1] = value;
     }
 
     @Override
