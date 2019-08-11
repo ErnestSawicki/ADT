@@ -4,7 +4,7 @@ import java.util.Arrays;
 
 public class ArrayList2x implements IList {
 
-    private final long[] holder;
+    private long[] holder;
     private int size = 0;
     private final int arraySizeMultipler = 2;
 
@@ -15,6 +15,8 @@ public class ArrayList2x implements IList {
     // to do
     @Override
     public boolean isEmpty() {
+        if (size == 0)
+            return true;
         return false;
     }
 
@@ -25,19 +27,24 @@ public class ArrayList2x implements IList {
 
     @Override
     public long get(int index) {
-        return 0;
+        return holder[index];
     }
 
     //to do
     @Override
     public void set(int index, long value) {
-
+        holder[index] = value;
     }
 
     //to do
     @Override
     public void remove(int index) {
-
+        int iterator = index;
+        while (iterator < size - 1) {
+            holder[iterator] = holder[iterator + 1];
+            iterator++;
+        }
+        size --;
     }
 
     @Override
@@ -58,6 +65,13 @@ public class ArrayList2x implements IList {
         }
         holder[index] = value;
         size++;
+        if (size == holder.length) {
+            long[] tmp = holder;
+            holder = new long[holder.length * arraySizeMultipler];
+            for (int i = 0; i < tmp.length; i++) {
+                holder[i] = tmp[i];
+            }
+        }
     }
 
     //to do - increment size of physical table
