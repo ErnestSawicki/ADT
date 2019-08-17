@@ -2,13 +2,13 @@ package pl.sda.List;
 
 import java.util.Arrays;
 
-public class ArrayList1 implements IList {
+public class ArrayList1<T> implements IList<T> {
 
-    private long[] holder;
+    private T[] holder;
     private int size = 0;
 
     public ArrayList1() {
-        holder = new long[size];
+        holder = (T[]) new Object[size];
     }
 
     // to do
@@ -25,19 +25,22 @@ public class ArrayList1 implements IList {
     }
 
     @Override
-    public long get(int index) {
+    public T get(int index) {
+        checkBounds(index);
         return holder[index];
     }
 
     //to do
     @Override
-    public void set(int index, long value) {
+    public void set(int index, T value) {
+        checkBounds(index);
         holder[index] = value;
     }
 
     //to do
     @Override
     public void remove(int index) {
+        checkBounds(index);
         int iterator = index;
         while (iterator < size - 1) {
             holder[iterator] = holder[iterator + 1];
@@ -47,7 +50,7 @@ public class ArrayList1 implements IList {
     }
 
     @Override
-    public int firstIndexWith(long value) {
+    public int firstIndexWith(T value) {
         for (int i = 0; i < size; i++) {
             if (value == holder[i]) {
                 return i;
@@ -58,15 +61,15 @@ public class ArrayList1 implements IList {
 
     //to do - increment size of table
     @Override            //   0             2           size= 1
-    public void add(int index, long value) {
+    public void add(int index, T value) {
         if (size == 0) {
             size++;
-            holder = new long[size];
+            holder = (T[]) new Object[size];
             holder[0] = value;
         } else {
-            long[] tmp = holder;
+            T[] tmp = holder;
             size++;
-            holder = new long[size];
+            holder = (T[]) new Object[size];
             for (int i = 0; i < tmp.length; i++) {
                 holder[i] = tmp[i];
             }
@@ -81,9 +84,9 @@ public class ArrayList1 implements IList {
 
     //to do - increment size of physical table
     @Override
-    public void add(long value) {
-        long[] tmp = holder;
-        holder = new long[++size];
+    public void add(T value) {
+        T[] tmp = holder;
+        holder = (T[]) new Object[++size];
         for (int i = 0; i < tmp.length; i++) {
             holder[i] = tmp[i];
         }
@@ -92,9 +95,14 @@ public class ArrayList1 implements IList {
 
     @Override
     //TODO - This should return copy of the filled part of the array
-    public long[] getHolderView() {
+    public T[] getHolderView() {
         return Arrays.copyOfRange(holder, 0, size);
+    }
 
+    private void checkBounds(int index) {
+        if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException(index);
+        }
     }
 
 }
