@@ -44,26 +44,24 @@ public class LinkedList<T> implements IList<T> {
     //to do
     @Override
     public void remove(int index) {
-        checkBounds(index);
-        if (index == 0){
-            Node toRemove = first;
-            Node secondNode = toRemove.getNext();
-            first = secondNode;
-            toRemove.setNext(null);
-        } else {
-            Node toRemove = first;
-            for (int i = 0; i < index; i++)
-                toRemove = toRemove.getNext();
-            Node prevToRemove = toRemove.getPrev();
-            Node nextToRemove = toRemove.getNext();
-            toRemove.setNext(null);
-            toRemove.setPrev(null);
-            if (Objects.nonNull(prevToRemove))
-                prevToRemove.setNext(nextToRemove);
-            if (Objects.nonNull(nextToRemove))
-                nextToRemove.setPrev(prevToRemove);
-            size--;
+        checkInsertBounds(index);
+        Node tmp = first;
+        for (int i = 0; i < index; i++) {
+            tmp = tmp.getNext();
         }
+        if (index == 0) {
+            first = tmp.getNext();
+            first.setPrev(null);
+            tmp.setNext(null);
+        } else if (index == size - 1) {
+            last = tmp.getPrev();
+            last.setNext(null);
+            tmp.setPrev(null);
+        } else {
+            tmp.getNext().setPrev(tmp.getPrev());
+            tmp.getPrev().setNext(tmp.getNext());
+        }
+        size--;
     }
 
     @Override

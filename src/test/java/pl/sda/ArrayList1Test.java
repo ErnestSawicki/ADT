@@ -1,8 +1,11 @@
 package pl.sda;
 
+import org.junit.Assert;
 import org.junit.Test;
 import pl.sda.List.ArrayList1;
 import pl.sda.List.IList;
+
+import java.util.ArrayList;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -219,5 +222,20 @@ public class ArrayList1Test {
         list.add(0, 3L);
         list.add(1, 4L);
         list.add(2, 5L);
+    }
+
+    @Test
+    public void shouldSortArrayOfFiveElements() {
+        ArrayList1 listToSort = new ArrayList1();
+        listToSort.add(0, 5L);
+        listToSort.add(1, 4L);
+        listToSort.add(2, 3L);
+        listToSort.add(3, 2L);
+        listToSort.add(4, 1L);
+
+        listToSort.selectionSort();
+
+        assertThat(listToSort.getHolderView()).containsExactly(1L, 2L, 3L, 4L, 5L);
+
     }
 }

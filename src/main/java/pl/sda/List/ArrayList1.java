@@ -78,8 +78,26 @@ public class ArrayList1<T> implements IList<T> {
             }
             holder[index] = value;
         }
+    }
+
+    public void selectionSort() {
+        for (int i = 0; i < holder.length; i++) {
+            int positionOfMinValue = i;
+            for (int j = i + 1; j < size - 1; j++) {
+                if ((Long) holder[j] > (Long) holder[j + 1]) {
+                    positionOfMinValue = j + 1;
+                }
+            }
+            swap(holder, i, positionOfMinValue);
+        }
+    }
 
 
+    private T[] swap(T[] arr, int firstIndex, int secondIndex) {
+        T tmp = arr[firstIndex];
+        arr[firstIndex] = arr[secondIndex];
+        arr[secondIndex] = tmp;
+        return arr;
     }
 
     //to do - increment size of physical table
